@@ -6,17 +6,18 @@
 
 :root {
     --primario: #fff;
-    --fondo: #ffebf2; 
-    --fondo-sobre: #ffe3ed; 
-    --solapa-sobre: #ffccd5; 
-    --cuerpo-sobre: #ffc1d1; 
+    --fondo: #faf4e6;
+    --fondo-sobre: #fff7cc;
+    --solapa-sobre: #ffec99;
+    --cuerpo-sobre: #ffe066;
     --sombra: rgba(0, 0, 0, 0.2);
-    --texto: #003049; 
-    --corazon: #ff477e; 
+    --texto: #003049;
+    --corazon: #ff477e;
 }
 
 body {
-    background: var(--fondo);
+    background: url("./images/fondo.jpg") no-repeat center center fixed;
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,7 +26,7 @@ body {
 }
 
 h1 {
-    font-family: "Marck Script", serif; 
+    font-family: 'Dancing Script', cursive;
     text-align: center;
     font-size: 60px;
     margin-bottom: 50px;
@@ -100,11 +101,11 @@ h1 {
     box-shadow: 0 0 5px var(--sombra);
     padding: 20px;
     border-radius: 10px;
-    transition: transform .5s ease-in-out;
+    transition: transform .6s cubic-bezier(.25,.8,.25,1);
 }
 
 .contenido {
-    font-family: "Gill Sans", Calibri, sans-serif;
+    font-family: "Marck Script", serif;
     color: var(--texto);
     text-align: left;
     font-size: 20px;
@@ -113,19 +114,26 @@ h1 {
     height: 100%;
     line-height: 25px;
     cursor: pointer;
-    overflow-Y: scroll;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: var(--corazon) transparent;
 }
 
-.corazon {
+/* ❤️ CORAZÓN (solo late, NO gira) */
+.corazon-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 999;
+    animation: latido 1.2s infinite ease-in-out;
+}
+
+.corazon {
     width: 30px;
     height: 30px;
     background-color: var(--corazon);
-    transform: translate(-50%,0) rotate(45deg);
-    transition: transform 0.5s ease-in-out 1s;
-    z-index: 999;
+    transform: rotate(45deg);
     cursor: pointer;
 }
 
@@ -137,26 +145,29 @@ h1 {
     height: 30px;
     background-color: var(--corazon);
     border-radius: 100%;
-
 }
 
-.corazon:before {
+.corazon::before {
     top: -15px;
 }
 
-.corazon:after {
+.corazon::after {
     right: 15px;
 }
 
-/*Agregar clases dinamicos*/
+@keyframes latido {
+    0% { transform: translate(-50%, 0) scale(1); }
+    50% { transform: translate(-50%, 0) scale(1.15); }
+    100% { transform: translate(-50%, 0) scale(1); }
+}
+
+/* ❌ QUITADO → .envoltura-sobre.abierto .corazon-wrapper { rotate } */
+
+/* -------------------------------------------------- */
+
 .abierto .sobre::before {
     transform: rotateX(180deg);
     z-index: 0;
-}
-
-.abierto .corazon {
-    transform: rotate(90deg);
-    transition-delay: 0.4s;
 }
 
 .carta.mostrar-carta {
@@ -177,31 +188,7 @@ h1 {
     pointer-events: none;
 }
 
-/*Scroll personalizado*/
-
-/*
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-
-
-::-webkit-scrollbar-thumb {
-    background-color: var(--cuerpo-sobre);
-    border-radius: 4px;
-}
-
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: var(--corazon);
-}
-*/
-
-/*Vista celular*/
-
+/* Vista móvil */
 @media screen and (max-width:400px) {
     .contenedor {
         width: 300px;
@@ -213,15 +200,8 @@ h1 {
     }
 
     .sobre::before {
-        border-top:150px solid var(--solapa-sobre) ;
+        border-top: 150px solid var(--solapa-sobre);
         border-right: 150px solid transparent;
         border-left: 150px solid transparent;
     }
-
 }
-
-
-
-
-
-
